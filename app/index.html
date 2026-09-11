@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Pulse</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="dashboard-header">
+    <h1>Project Pulse</h1>
+    <p class="subtitle">A quick read on where Mona's team projects stand.</p>
+  </header>
+
+  <main id="dashboard" class="dashboard" aria-live="polite" aria-busy="true">
+    <p class="loading">Loading projects from project-data.json…</p>
+  </main>
+
+  <template id="project-card-template">
+    <article class="project-card">
+      <header class="card-header">
+        <h2 class="project-name"></h2>
+        <span class="badge status"></span>
+      </header>
+      <dl class="card-meta">
+        <div class="meta-row">
+          <dt>Owner</dt>
+          <dd class="owner"></dd>
+        </div>
+        <div class="meta-row">
+          <dt>Priority</dt>
+          <dd><span class="badge priority"></span></dd>
+        </div>
+        <div class="meta-row">
+          <dt>Recent activity</dt>
+          <dd class="recentActivity"></dd>
+        </div>
+      </dl>
+    </article>
+  </template>
+
+  <script>
+    const slug = (value) => String(value).toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+    async function loadProjects() {
+      const dashboard = document.getElementById('dashboard');
+      const template = document.getElementById('project-card-template');
+
+      try {
+        const response = await fetch('project-data.json');
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+
+        dashboard.innerHTML = '';
+        data.projects.forEach((project) => {
+          const card = template.content.cloneNode(true);
+          card.querySelector('.project-name').textContent = project.name;
+          card.querySelector('.owner').textContent = project.owner;
+
+          const status = card.querySelector('.status');
+          status.textContent = project.status;
+          status.classList.add(`status-${slug(project.status)}`);
+
+          const priority = card.querySelector('.priority');
+          priority.textContent = project.priority;
+          priority.classList.add(`priority-${slug(project.priority)}`);
+
+          card.querySelector('.recentActivity').textContent = project.recentActivity;
+          dashboard.appendChild(card);
+        });
+      } catch (error) {
+        dashboard.innerHTML = `<p class="error" role="alert">Could not load project-data.json (${error.message}).</p>`;
+      } finally {
+        dashboard.setAttribute('aria-busy', 'false');
+      }
+    }
+
+    loadProjects();
+  </script>
+</body>
+</html>
