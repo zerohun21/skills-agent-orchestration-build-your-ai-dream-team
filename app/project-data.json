@@ -1,0 +1,39 @@
+{
+  "projects": [
+    {
+      "name": "Octocat Onboarding",
+      "owner": "Mona",
+      "status": "On track",
+      "recentActivity": "Merged the welcome flow redesign (2 days ago)",
+      "priority": "High"
+    },
+    {
+      "name": "Pulse API",
+      "owner": "Hubot",
+      "status": "At risk",
+      "recentActivity": "Rate limiting bug reopened (yesterday)",
+      "priority": "High"
+    },
+    {
+      "name": "Docs Refresh",
+      "owner": "Octocat",
+      "status": "In progress",
+      "recentActivity": "12 pages migrated to the new template (today)",
+      "priority": "Medium"
+    },
+    {
+      "name": "Mobile Notifications",
+      "owner": "Mona",
+      "status": "Blocked",
+      "recentActivity": "Waiting on push certificate renewal (4 days ago)",
+      "priority": "Medium"
+    },
+    {
+      "name": "Community Newsletter",
+      "owner": "Hubot",
+      "status": "Done",
+      "recentActivity": "September issue sent (1 week ago)",
+      "priority": "Low"
+    }
+  ]
+}
